@@ -42,13 +42,13 @@ namespace Utility {
             file << i << "," << prices[i] << ",";
 
             // Write SMA values (if available)
-            if (i < shortSMA.size() && shortSMA[i] != 0.0) file << shortSMA[i]; else file << "N/A"; // Assuming 0.0 is placeholder
+            if (i < shortSMA.size() && shortSMA[i] != 0.0) file << shortSMA[i]; else file << "N/A"; // Assuming 0.0 is a placeholder
             file << ",";
 
-            if (i < longSMA.size() && longSMA[i] != 0.0) file << longSMA[i]; else file << "N/A"; // Assuming 0.0 is placeholder
+            if (i < longSMA.size() && longSMA[i] != 0.0) file << longSMA[i]; else file << "N/A"; // Assuming 0.0 is a placeholder
             file << ",";
 
-            // Write signal
+            // Write the signal
             if (i < signals.size()) {
                 switch (signals[i]) {
                     case SignalType::BUY: file << "BUY"; break;
@@ -60,15 +60,15 @@ namespace Utility {
             }
             file << ",";
 
-            // Write portfolio value
+            // Write the  portfolio value
             if (i < portfolioValues.size()) file << portfolioValues[i]; else file << "N/A";
             file << ",";
 
-            // Write Daily PnL
+            // Write the Daily PnL
             if (i < dailyPnL.size()) file << dailyPnL[i]; else file << "N/A";
             file << ",";
 
-            // Write Drawdown Percent
+            // Write the Drawdown Percentage
             if (i < drawdownSeries.size()) file << (drawdownSeries[i] * 100.0); else file << "N/A";
             file << "\n";
         }
@@ -76,7 +76,7 @@ namespace Utility {
         file.close();
     }
 
-    // Function to calculate maximum drawdown
+    // Function to calculate the maximum drawdown
     double calculateMaxDrawdown(const std::vector<double>& portfolioValues) {
         if (portfolioValues.empty()) return 0.0;
         double maxDrawdown = 0.0;
@@ -105,7 +105,7 @@ namespace Utility {
             if (portfolioValues[i] > peak) {
                 peak = portfolioValues[i];
             }
-            if (peak == 0) { // Avoid division by zero
+            if (peak == 0) { // Avoid division by zero (the forbidden)
                  drawdownSeries[i] = 0.0;
             } else {
                 drawdownSeries[i] = (peak - portfolioValues[i]) / peak;
@@ -140,14 +140,14 @@ namespace Utility {
         }
 
         double stdDev = (returns.size() > 0) ? std::sqrt(sumSquaredDifferences / returns.size()) : 0.0;
-        if (stdDev == 0) return 0.0; // Avoid division by zero if stdDev is zero (e.g. no change in portfolio)
+        if (stdDev == 0) return 0.0; // Avoid division by zero if stdDev is zero (e.g. no change in the portfolio)
 
 
         // Annualize (assuming daily returns)
         double annualizedReturn = meanReturn * 252;  // 252 trading days in a year
         double annualizedStdDev = stdDev * std::sqrt(252);
 
-        if (annualizedStdDev == 0) return 0.0; // Avoid division by zero
+        if (annualizedStdDev == 0) return 0.0; // Avoid division by zero (no thx)
 
         // Calculate Sharpe ratio
         return (annualizedReturn - riskFreeRate) / annualizedStdDev;
@@ -188,7 +188,7 @@ public:
     // Function to calculate Simple Moving Average (SMA)
     std::vector<double> calculateSMA(const std::vector<double>& prices, int window) {
         size_t n = prices.size();
-        std::vector<double> sma(n, 0.0); // Initialize with 0.0, will be N/A in CSV if 0.0 before window
+        std::vector<double> sma(n, 0.0); // Initialize with 0.0, will be N/A in CSV if 0.0 before the window
 
         if (window <= 0 || n < static_cast<size_t>(window)) {
             return sma; 
@@ -229,7 +229,7 @@ public:
         std::vector<SignalType> signals(n, SignalType::HOLD);
 
         for (size_t i = std::max(static_cast<size_t>(longWindow), static_cast<size_t>(1)); i < n; ++i) {
-            // Ensure SMAs at i and i-1 are valid (not the initial 0.0s before window is filled)
+            // Ensure SMAs at i and i-1 are valid (not the initial 0.0s before the window is filled)
             // Check if SMAs are non-zero, assuming 0.0 is the placeholder for not-yet-calculated SMAs.
             bool shortSmaValidPrev = (i - 1 >= static_cast<size_t>(shortWindow - 1)) && shortSMA_full[i-1] != 0.0;
             bool shortSmaValidCurr = (i >= static_cast<size_t>(shortWindow - 1)) && shortSMA_full[i] != 0.0;
@@ -375,7 +375,7 @@ int main() {
     std::cout << "Sharpe Ratio: " << result.sharpeRatio << std::endl;
     std::cout << "Maximum Drawdown: " << (result.maxDrawdownValue * 100) << "%" << std::endl;
 
-    // Write results to CSV file for further analysis/plotting
+    // Write results to CSV file for further analysis/plotting - this part isn't necessary, just for show
     if (!pricePath.empty()){ // Ensure there's data to write
         Utility::writeToCSV("sma_crossover_backtest.csv", 
                             pricePath, 
