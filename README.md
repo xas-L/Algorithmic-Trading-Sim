@@ -1,8 +1,8 @@
 # Algorithmic Trading: A C++ Market Making Simulator 
 
-C++ market simulation with a limit order book and adaptive market-making agent. Explores algorithmic trading concepts and dynamic quoting strategies. This project was undertaken for skill development in C++ and quantitative finance.
+C++ market simulation with a limit order book and adaptive market-making agent. Explores algorithmic trading concepts and dynamic quoting strategies. This project was undertaken for skill development in C++ and quantitative finance with a pdf accompanying the code.
 
-A project write-up can be found within this repo.
+This project was completed in September 2021 and has been drawn forward from a private repo into this one.
 
 ---
 
