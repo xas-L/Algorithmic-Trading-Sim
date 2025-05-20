@@ -1,4 +1,4 @@
-# CppMarketMakingSim: A C++ Market Making Simulator 
+# Algorithmic Trading: A C++ Market Making Simulator 
 
 C++ market simulation with a limit order book and adaptive market-making agent. Explores algorithmic trading concepts and dynamic quoting strategies. This project was undertaken for skill development in C++ and quantitative finance.
 
